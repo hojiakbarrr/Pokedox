@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private val mAdapter: PokeAdapter by lazy {
-        PokeAdapter()
+        PokeAdapter(this)
     }
     private val viewModel: MainViewModel by viewModels()
 

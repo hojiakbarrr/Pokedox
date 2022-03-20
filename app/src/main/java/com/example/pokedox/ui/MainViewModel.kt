@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 
@@ -31,6 +32,13 @@ class MainViewModel @Inject constructor(private val repository: PokeRepository) 
         }
 
         if (response.isSuccessful) {
+            for (o in response.body()!!.pokemon){
+
+                if (o.name.lowercase(Locale.getDefault()) == "pikachu"){
+                    val ee = o
+                    Log.d("teestingww", "name ${ee}")
+                }
+            }
             _listPokemons.value = response.body()!!.pokemon
             Log.d("teesting", "id ${response.body()}")
 
