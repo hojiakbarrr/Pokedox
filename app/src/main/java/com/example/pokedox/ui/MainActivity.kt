@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedox.adapter.PokeAdapter
 import com.example.pokedox.databinding.ActivityMainBinding
+import com.example.pokedox.model.Pokemon
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -26,10 +27,25 @@ class MainActivity : AppCompatActivity() {
 
         adapter()
         showMainList()
+        search()
 
         setContentView(binding.root)
 
 
+    }
+
+    private fun search() {
+        binding.apply {
+            btnSearch.setOnClickListener {
+                val text = searchInputEditText.text
+                viewModel.search(text.toString())
+                viewModel.listPokemons.observe(this@MainActivity) { pokemons ->
+                    Log.d("teestinwg", "id ${pokemons}")
+                    mAdapter.pokeList = pokemons
+
+                }
+            }
+        }
     }
 
     private fun adapter() {

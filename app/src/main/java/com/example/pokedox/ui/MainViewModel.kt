@@ -1,6 +1,7 @@
 package com.example.pokedox.ui
 
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ class MainViewModel @Inject constructor(private val repository: PokeRepository) 
     private val _listPokemons: MutableLiveData<List<Pokemon>> = MutableLiveData()
     val listPokemons: LiveData<List<Pokemon>> = _listPokemons
 
+
     init {
         detail()
     }
@@ -32,17 +34,25 @@ class MainViewModel @Inject constructor(private val repository: PokeRepository) 
         }
 
         if (response.isSuccessful) {
-            for (o in response.body()!!.pokemon){
-
-                if (o.name.lowercase(Locale.getDefault()) == "pikachu"){
-                    val ee = o
-                    Log.d("teestingww", "name ${ee}")
-                }
-            }
             _listPokemons.value = response.body()!!.pokemon
             Log.d("teesting", "id ${response.body()}")
+        }
+    }
 
+    fun search(text: String)= viewModelScope.launch {
+
+        val respone = repository.pokemonList()
+
+        for (o in respone.body()!!.pokemon){
+            if (o.name.lowercase(Locale.getDefault()) == text){
+                _listPokemons.value = listOf(o)
+                Log.d("teestingww", "name ${o}")
+            }
         }
 
     }
+
+
+
+
 }
