@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(),SwipeRefreshLayout.OnRefreshListener {
         PokeAdapter(this)
     }
 
-    private lateinit var swipeLayout: SwipeRefreshLayout
     private val viewModel: MainViewModel by viewModels()
 
 
