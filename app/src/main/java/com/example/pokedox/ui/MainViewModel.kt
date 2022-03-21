@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(private val repository: PokeRepository) 
         detail()
     }
 
-    private fun detail() = viewModelScope.launch {
+     fun detail() = viewModelScope.launch {
 
         val response = withContext(Dispatchers.IO) {
             repository.pokemonList()
