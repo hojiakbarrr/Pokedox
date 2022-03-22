@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,18 +29,15 @@ class MainActivity : AppCompatActivity(),SwipeRefreshLayout.OnRefreshListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.swipeToRefresh.setOnRefreshListener(this)
-        binding.swipeToRefresh.setColorSchemeColors(
-            Color.GREEN,Color.RED,
-            Color.BLUE,Color.DKGRAY
-        )
+        shimmerStart()
+        swipe()
+        /**
+         * не менять настройки функции стоят так что никто никому не мешает
+         */
+
         adapter()
         showMainList()
         search()
-
-
-
-
 
         setContentView(binding.root)
     }
@@ -68,23 +66,56 @@ class MainActivity : AppCompatActivity(),SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    private fun showMainList() {
+    private fun swipe(){
+        binding.apply {
+            swipeToRefresh.setOnRefreshListener(this@MainActivity)
+            swipeToRefresh.setColorSchemeColors(
+               Color.RED,Color.BLUE,Color.DKGRAY
+            )
+        }
+    }
 
+    private fun showMainList() {
         viewModel.listPokemons.observe(this@MainActivity) { pokemons ->
             Log.d("teestinwg", "id ${pokemons}")
             mAdapter.pokeList = pokemons
             binding.swipeToRefresh.isRefreshing = false
+            shimmerStop()
 
+        }
+    }
+
+    private fun shimmerStop() {
+        binding.apply {
+            shimmerFrameLayout.stopShimmerAnimation()
+            shimmerFrameLayout.visibility = View.INVISIBLE
+            btnSearch.visibility = View.VISIBLE
+            animeRecyclerView.visibility = View.VISIBLE
+            searchInputLayout.visibility = View.VISIBLE
+            searchInputEditText.visibility = View.VISIBLE
+        }
+    }
+
+    private fun shimmerStart() {
+        binding.apply {
+            shimmerFrameLayout.startShimmerAnimation()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            btnSearch.visibility = View.INVISIBLE
+            animeRecyclerView.visibility = View.INVISIBLE
+            searchInputLayout.visibility = View.INVISIBLE
+            searchInputEditText.visibility = View.INVISIBLE
         }
     }
 
     override fun onRefresh() {
         binding.apply {
+            shimmerStart()
             viewModel.detail()
             swipeToRefresh.isRefreshing = true
             swipeToRefresh.postDelayed({
                 swipeToRefresh.isRefreshing =false
             }, 1500)
+            shimmerStop()
         }
     }
 }

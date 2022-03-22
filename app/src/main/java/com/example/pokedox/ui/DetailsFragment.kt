@@ -10,7 +10,10 @@ import com.example.pokedox.databinding.DetailsFragmentBinding
 import com.example.pokedox.model.Pokemon
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class DetailsFragment(
     private var pokemon: Pokemon,
 ) : BottomSheetDialogFragment() {

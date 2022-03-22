@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokedox.model.Pokemon
+import com.example.pokedox.repository.PokeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailsViewModel: ViewModel() {
 
-    private val _text: MutableLiveData<Pokemon> = MutableLiveData()
+@HiltViewModel
+class DetailsViewModel @Inject constructor(private val repository: PokeRepository)  : ViewModel() {
 
     private val _typePokemons: MutableLiveData<String> = MutableLiveData()
     val typePokemons: LiveData<String> = _typePokemons
